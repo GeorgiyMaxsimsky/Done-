@@ -5,12 +5,12 @@ import (
 	"net/http"
 )
 
-type HTTPHandlers struct {
+type HTTPTaskHandlers struct {
 	toDoList *todo.List
 }
 
-func NewHTTPhandlers(toDoList *todo.List) *HTTPHandlers {
-	return &HTTPHandlers{
+func NewHTTPhandlers(toDoList *todo.List) *HTTPTaskHandlers {
+	return &HTTPTaskHandlers{
 		toDoList: toDoList,
 	}
 }
@@ -28,7 +28,7 @@ failed:
 - status code: 400,409,500
 -responce body: JSON with error + time
 */
-func (h *HTTPHandlers) HandleCreateTask(w http.ResponseWriter, r *http.Request) {
+func (h *HTTPTaskHandlers) HandleCreateTask(w http.ResponseWriter, r *http.Request) {
 
 }
 
@@ -39,13 +39,66 @@ info: pattern
 
 succeed:
 -status code : 200 OK
--responce body: JSON represent found task
+-responce body: JSON represented found task
 
 failed:
 - status code: 400,404,409,500
 -responce body: JSON with error + time
 */
-func (h *HTTPHandlers) HandleGetTask(w http.ResponseWriter, r *http.Request) {
+func (h *HTTPTaskHandlers) HandleGetTask(w http.ResponseWriter, r *http.Request) {
+
+}
+
+/*
+pattern: /tasks
+method: GET
+info:
+
+succeed:
+-status code : 200
+-responce body: JSON represent tasks
+
+failed:
+- status code: 400,409,500
+-responce body: JSON with error + time
+*/
+func (h *HTTPTaskHandlers) HandleGetAllTask(w http.ResponseWriter, r *http.Request) {
+
+}
+
+/*
+pattern: /tasks?complited=true
+method: GET
+info: querry params
+
+succeed:
+-status code : 200
+-responce body: JSON represent tasks
+
+failed:
+- status code: 400,409,500
+-responce body: JSON with error + time
+*/
+func (h *HTTPTaskHandlers) HandleGetAllUncomplitedTask(w http.ResponseWriter, r *http.Request) {
+
+}
+
+/*
+pattern: /tasks/{id}
+method: PATCH
+info: pattern + JSON in request body
+
+
+succeed:
+-status code : 200
+-responce body: JSON represent changed task
+
+failed:
+- status code: 400,409,500
+-responce body: JSON with error + time
+*/
+
+func (h *HTTPTaskHandlers) HandleCompleteTask(w http.ResponseWriter, r *http.Request) {
 
 }
 
@@ -55,13 +108,13 @@ method: DELETE
 info: pattern
 
 succeed:
--status code : 200 OK
--responce body: JSON represent found task
+-status code : 204 No content
+-responce body:
 
 failed:
 - status code: 400,404,409,500
 -responce body: JSON with error + time
 */
 
-func (h *HTTPHandlers) HandleDeletetask(w http.ResponseWriter, r *http.Request) {
+func (h *HTTPTaskHandlers) HandleDeleteTask(w http.ResponseWriter, r *http.Request) {
 }
