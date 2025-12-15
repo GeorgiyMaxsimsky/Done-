@@ -48,3 +48,20 @@ failed:
 func (h *HTTPHandlers) HandleGetTask(w http.ResponseWriter, r *http.Request) {
 
 }
+
+/*
+pattern: /tasks/{id}
+method: DELETE
+info: pattern
+
+succeed:
+-status code : 200 OK
+-responce body: JSON represent found task
+
+failed:
+- status code: 400,404,409,500
+-responce body: JSON with error + time
+*/
+
+func (h *HTTPHandlers) HandleDeletetask(w http.ResponseWriter, r *http.Request) {
+}
