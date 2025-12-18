@@ -2,10 +2,12 @@ package todo
 
 import (
 	"time"
+
+	"github.com/google/uuid"
 )
 
 type Task struct {
-	Id          int
+	Id          string
 	Title       string
 	Description string
 	IsCompleted bool
@@ -21,7 +23,7 @@ func NewTask(
 
 ) Task {
 	return Task{
-		Id:          id,
+		Id:          uuid.NewString(),
 		Title:       title,
 		Description: description,
 		IsCompleted: false,

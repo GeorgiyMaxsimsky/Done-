@@ -1,20 +1,22 @@
 package todo
 
+import "github.com/google/uuid"
+
 type List struct {
-	tasks map[int]Task
+	tasks map[uuid.UUID]Task
 }
 
 func NewList() *List {
 
 	return &List{
-		tasks: make(map[int]Task),
+		tasks: make(map[uuid.UUID]Task),
 	}
 }
 
 func (list *List) AddTask(task Task) error {
 
 	if _, ok := list.tasks[task.Id]; ok {
-		return ErrTaskAlreasyExist
+		return ErrTaskAlreadyExist
 	}
 
 	list.tasks[task.Id] = task
@@ -22,9 +24,9 @@ func (list *List) AddTask(task Task) error {
 	return nil
 }
 
-func (list *List) ListTasks() map[int]Task {
+func (list *List) ListTasks() map[uuid.UUID]Task {
 
-	tmp := make(map[int]Task, len(list.tasks))
+	tmp := make(map[uuid.UUID]Task, len(list.tasks))
 	for k, v := range list.tasks {
 		tmp[k] = v
 	}
@@ -32,8 +34,19 @@ func (list *List) ListTasks() map[int]Task {
 	return tmp
 }
 
-func (list *List) ListNotCompletedTasks() map[int]Task {
-	notCompletedtask := make(map[int]Task)
+func (list *List) GetTask(id uuid.UUID) (Task, error) {
+
+	foundedTask, ok := list.tasks[id]
+
+	if !ok {
+		return Task{}, ErrTaskNotFound
+	}
+	return foundedTask, nil
+
+}
+
+func (list *List) ListUnCompletedTasks() map[uuid.UUID]Task {
+	notCompletedtask := make(map[uuid.UUID]Task)
 
 	for k, v := range list.tasks {
 		if !list.tasks[k].IsCompleted {
@@ -43,8 +56,8 @@ func (list *List) ListNotCompletedTasks() map[int]Task {
 	return notCompletedtask
 
 }
-func (list *List) ListCompletedTasks() map[int]Task {
-	completedTask := make(map[int]Task)
+func (list *List) ListCompletedTasks() map[uuid.UUID]Task {
+	completedTask := make(map[uuid.UUID]Task)
 
 	for k, v := range list.tasks {
 		if list.tasks[k].IsCompleted {
@@ -55,7 +68,7 @@ func (list *List) ListCompletedTasks() map[int]Task {
 
 }
 
-func (list *List) CompleteTask(id int) error {
+func (list *List) CompleteTask(id uuid.UUID) error {
 	task, ok := list.tasks[id]
 	if !ok {
 		return ErrTaskNotFound
@@ -69,7 +82,7 @@ func (list *List) CompleteTask(id int) error {
 
 }
 
-func (list *List) DeleteTask(id int) error {
+func (list *List) DeleteTask(id uuid.UUID) error {
 
 	_, ok := list.tasks[id]
 
